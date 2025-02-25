@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AgriConnect{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title">Welcome, {{ user.username }}!</h2>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <h5>Phone Number</h5>
+                            <p>{{ profile.phone_number }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Location</h5>
+                            <p>{{ profile.location }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Farm Size</h5>
+                            <p>{{ profile.farm_size }} acres</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="card-title">Your Products</h3>
+                        <a href="{% url 'add_product' %}" class="btn btn-primary">Add New Product</a>
+                    </div>
+                    {% if products %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.category }}</td>
+                                    <td>${{ product.price }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p>No products added yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Recent Orders</h3>
+                    {% if orders %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Buyer</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.product.name }}</td>
+                                    <td>{{ order.buyer.username }}</td>
+                                    <td>{{ order.quantity }}</td>
+                                    <td>${{ order.total_price }}</td>
+                                    <td>{{ order.status|title }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p>No orders received yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
